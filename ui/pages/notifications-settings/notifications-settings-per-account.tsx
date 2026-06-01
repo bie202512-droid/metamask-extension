@@ -78,19 +78,13 @@ export const NotificationsSettingsPerAccount = ({
       category: MetaMetricsEventCategory.NotificationSettings,
       event: MetaMetricsEventName.NotificationsSettingsUpdated,
       properties: {
-        // TODO: Fix in https://github.com/MetaMask/metamask-extension/issues/31860
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        settings_type: 'account_notifications',
-        // TODO: Fix in https://github.com/MetaMask/metamask-extension/issues/31860
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        old_value: isEnabled,
-        // TODO: Fix in https://github.com/MetaMask/metamask-extension/issues/31860
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        new_value: !isEnabled,
+        settings_type: 'wallet-activity',
+        notification_channel: 'all',
+        enabled: !isEnabled,
       },
     });
     await toggleAccount(!isEnabled);
-  }, [address, isEnabled, toggleAccount, trackEvent]);
+  }, [isEnabled, toggleAccount, trackEvent]);
 
   const checksumAddress = toChecksumHexAddress(address);
   const shortenedAddress = shortenAddress(checksumAddress);
