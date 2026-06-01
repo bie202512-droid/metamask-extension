@@ -16,7 +16,7 @@ import { FeatureAnnouncementNotification } from './types';
 const useAnalyticEventCallback = (props: {
   id: string;
   type: string;
-  clickType: 'external_link' | 'internal_link';
+  clickType: 'cta-button';
 }) => {
   const { trackEvent } = useContext(MetaMetricsContext);
 
@@ -48,7 +48,7 @@ export const ExtensionLinkButton = (props: {
   const onClick = useAnalyticEventCallback({
     id: notification.id,
     type: notification.type,
-    clickType: 'internal_link',
+    clickType: 'cta-button',
   });
 
   if (!notification.data.extensionLink) {
@@ -76,7 +76,7 @@ export const ExternalLinkButton = (props: {
   const analyticCallback = useAnalyticEventCallback({
     id: notification.id,
     type: notification.type,
-    clickType: 'external_link',
+    clickType: 'cta-button',
   });
 
   if (!notification.data.externalLink) {
