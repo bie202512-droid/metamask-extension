@@ -2,10 +2,6 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { useI18nContext } from '../../hooks/useI18nContext';
 import { MetaMetricsContext } from '../../contexts/metametrics';
-import {
-  MetaMetricsEventCategory,
-  MetaMetricsEventName,
-} from '../../../shared/constants/metametrics';
 import { useEnableNotifications } from '../../hooks/metamask-notifications/useNotifications';
 import { getIsUpdatingMetamaskNotifications } from '../../selectors/metamask-notifications/metamask-notifications';
 import { useMetamaskNotificationsContext } from '../../contexts/metamask-notifications/metamask-notifications';
@@ -54,16 +50,6 @@ export const NotificationsListTurnOnNotifications = () => {
 
   const handleTurnOnNotifications = async () => {
     await enableNotifications();
-    trackEvent({
-      category: MetaMetricsEventCategory.NotificationInteraction,
-      event: MetaMetricsEventName.NotificationsActivated,
-      properties: {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        action_type: 'completed',
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        is_profile_syncing_enabled: true,
-      },
-    });
     if (!error && !isUpdatingMetamaskNotifications) {
       listNotifications();
     }

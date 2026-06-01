@@ -152,18 +152,6 @@ export function useGlobalMenuSections(
       !hasThirdPartyNotifySnaps && !isMetamaskNotificationsEnabled;
 
     if (shouldShowEnableModal) {
-      trackEvent({
-        category: MetaMetricsEventCategory.NotificationsActivationFlow,
-        event: MetaMetricsEventName.NotificationsActivated,
-        properties: {
-          // TODO: Fix in https://github.com/MetaMask/metamask-extension/issues/31860
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-          action_type: 'started',
-          // TODO: Fix in https://github.com/MetaMask/metamask-extension/issues/31860
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-          is_profile_syncing_enabled: isBackupAndSyncEnabled,
-        },
-      });
       dispatch(showConfirmTurnOnMetamaskNotifications());
       onClose();
       return;
