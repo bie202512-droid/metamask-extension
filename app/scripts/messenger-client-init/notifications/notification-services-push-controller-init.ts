@@ -89,13 +89,7 @@ export const NotificationServicesPushControllerInit: MessengerClientInitFunction
           notification_id: notification.notification_id,
           notification_type: notification.notification_type,
           notification_subtype: notification.notification_subtype,
-          // Extension always routes a push click to the in-app inbox detail, so
-          // send that internal route as `deeplink` (§7.1). The FCM payload only
-          // carries a deeplink for platform notifications, which would otherwise
-          // leave `deeplink IS NOT NULL` queries dropping extension entirely.
           deeplink: `#notifications/${notification.notification_id}`,
-          // Optional fields are omitted when absent ("key present" is the
-          // signal, matching what push-services writes into the FCM payload).
           ...(notification.profile_id && {
             profile_id: notification.profile_id,
           }),

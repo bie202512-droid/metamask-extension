@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
   Box,
@@ -11,6 +11,12 @@ import {
   FontWeight,
 } from '@metamask/design-system-react';
 import { useI18nContext } from '../../hooks/useI18nContext';
+import { MetaMetricsContext } from '../../contexts/metametrics';
+import {
+  MetaMetricsEventCategory,
+  MetaMetricsEventName,
+} from '../../../shared/constants/metametrics';
+import { useNotificationAnalyticsProperties } from '../notifications/notification-hooks/use-notification-analytics-properties';
 import {
   selectIsMetamaskNotificationsEnabled,
   getIsUpdatingMetamaskNotifications,
@@ -58,6 +64,35 @@ export function NotificationsSettingsContent() {
     await accountSettingsProps.update(accountAddresses);
   };
   const t = useI18nContext();
+  const { trackEvent } = useContext(MetaMetricsContext);
+  const { profile_id } = useNotificationAnalyticsProperties();
+
+  const handleAccountActivityToggle = useCallback(
+    (newState: boolean) => {
+      const enabledCount = Object.values(
+        accountSettingsProps.data ?? {},
+      ).filter(Boolean).length;
+
+      const flippedOn = newState && enabledCount === 0;
+      const flippedOff = !newState && enabledCount === 1;
+
+      if (!flippedOn && !flippedOff) {
+        return;
+      }
+
+      trackEvent({
+        category: MetaMetricsEventCategory.NotificationSettings,
+        event: MetaMetricsEventName.NotificationsSettingsUpdated,
+        properties: {
+          settings_type: 'wallet_activity',
+          notification_channel: 'all',
+          enabled: newState,
+          ...(profile_id && { profile_id }),
+        },
+      });
+    },
+    [accountSettingsProps.data, profile_id, trackEvent],
+  );
 
   return (
     <Box
@@ -145,6 +180,7 @@ export function NotificationsSettingsContent() {
                           ] ?? false
                         }
                         refetchAccountSettings={refetchAccountSettings}
+                        onToggle={handleAccountActivityToggle}
                       />
                     ))}
                   </Box>

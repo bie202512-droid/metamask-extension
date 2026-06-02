@@ -1,17 +1,11 @@
-import React, { useState, useCallback, useContext } from 'react';
+import React, { useState, useCallback } from 'react';
 import { toChecksumHexAddress } from '@metamask/controller-utils';
-import { MetaMetricsContext } from '../../contexts/metametrics';
-import {
-  MetaMetricsEventCategory,
-  MetaMetricsEventName,
-} from '../../../shared/constants/metametrics';
 import { useSwitchAccountNotificationsChange } from '../../hooks/metamask-notifications/useSwitchNotifications';
 import {
   NotificationsSettingsBox,
   NotificationsSettingsAccount,
 } from '../../components/multichain';
 import { useListNotifications } from '../../hooks/metamask-notifications/useNotifications';
-import { useNotificationAnalyticsProperties } from '../notifications/notification-hooks/use-notification-analytics-properties';
 import { shortenAddress } from '../../helpers/utils/util';
 
 type NotificationsSettingsPerAccountProps = {
@@ -22,6 +16,7 @@ type NotificationsSettingsPerAccountProps = {
   isLoading?: boolean;
   disabledSwitch?: boolean;
   refetchAccountSettings: () => Promise<void>;
+  onToggle?: (newState: boolean) => void;
 };
 
 function useUpdateAccountSetting(
@@ -60,10 +55,8 @@ export const NotificationsSettingsPerAccount = ({
   isLoading,
   disabledSwitch,
   refetchAccountSettings,
+  onToggle,
 }: NotificationsSettingsPerAccountProps) => {
-  const { trackEvent } = useContext(MetaMetricsContext);
-  const { profile_id } = useNotificationAnalyticsProperties();
-
   const {
     toggleAccount,
     loading: isUpdatingAccount,
@@ -76,18 +69,9 @@ export const NotificationsSettingsPerAccount = ({
   const error = accountError;
 
   const handleToggleAccountNotifications = useCallback(async () => {
-    trackEvent({
-      category: MetaMetricsEventCategory.NotificationSettings,
-      event: MetaMetricsEventName.NotificationsSettingsUpdated,
-      properties: {
-        settings_type: 'wallet_activity',
-        notification_channel: 'all',
-        enabled: !isEnabled,
-        ...(profile_id && { profile_id }),
-      },
-    });
+    onToggle?.(!isEnabled);
     await toggleAccount(!isEnabled);
-  }, [isEnabled, profile_id, toggleAccount, trackEvent]);
+  }, [isEnabled, onToggle, toggleAccount]);
 
   const checksumAddress = toChecksumHexAddress(address);
   const shortenedAddress = shortenAddress(checksumAddress);
