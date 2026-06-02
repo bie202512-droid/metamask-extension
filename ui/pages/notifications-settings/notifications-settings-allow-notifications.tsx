@@ -32,6 +32,7 @@ import {
   getIsUpdatingMetamaskNotifications,
 } from '../../selectors/metamask-notifications/metamask-notifications';
 import { useMetamaskNotificationsContext } from '../../contexts/metamask-notifications/metamask-notifications';
+import { useNotificationAnalyticsProperties } from '../notifications/notification-hooks/use-notification-analytics-properties';
 import {
   NotificationsSettingsBox,
   NotificationsSettingsType,
@@ -52,6 +53,7 @@ export function NotificationsSettingsAllowNotifications({
 }) {
   const t = useI18nContext();
   const { trackEvent } = useContext(MetaMetricsContext);
+  const { profile_id } = useNotificationAnalyticsProperties();
   const { listNotifications } = useMetamaskNotificationsContext();
   const isMetamaskNotificationsEnabled = useSelector(
     selectIsMetamaskNotificationsEnabled,
@@ -94,7 +96,8 @@ export function NotificationsSettingsAllowNotifications({
         properties: {
           settings_type: 'master',
           notification_channel: 'all',
-          enabled: false
+          enabled: false,
+          ...(profile_id && { profile_id }),
         },
       });
       await disableNotifications();
@@ -105,7 +108,8 @@ export function NotificationsSettingsAllowNotifications({
         properties: {
           settings_type: 'master',
           notification_channel: 'all',
-          enabled: true
+          enabled: true,
+          ...(profile_id && { profile_id }),
         },
       });
       await enableNotifications();
@@ -119,6 +123,7 @@ export function NotificationsSettingsAllowNotifications({
     enableNotifications,
     toggleValue,
     trackEvent,
+    profile_id,
   ]);
 
   const privacyLink = useMemo(

@@ -18,6 +18,7 @@ import {
 } from '../../../shared/constants/metametrics';
 import { useI18nContext } from '../../hooks/useI18nContext';
 import { useMetamaskNotificationsContext } from '../../contexts/metamask-notifications/metamask-notifications';
+import { useNotificationAnalyticsProperties } from '../notifications/notification-hooks/use-notification-analytics-properties';
 import { useSwitchFeatureAnnouncementsChange } from '../../hooks/metamask-notifications/useSwitchNotifications';
 import {
   NotificationsSettingsBox,
@@ -36,6 +37,7 @@ export function NotificationsSettingsTypes({
   const t = useI18nContext();
   const { listNotifications } = useMetamaskNotificationsContext();
   const { trackEvent } = useContext(MetaMetricsContext);
+  const { profile_id } = useNotificationAnalyticsProperties();
 
   // Selectors
   const isFeatureAnnouncementsEnabled = useSelector(
@@ -63,6 +65,7 @@ export function NotificationsSettingsTypes({
           settings_type: 'product_announcements',
           notification_channel: 'all',
           enabled: !featureAnnouncementsEnabled,
+          ...(profile_id && { profile_id }),
         },
       });
       listNotifications();

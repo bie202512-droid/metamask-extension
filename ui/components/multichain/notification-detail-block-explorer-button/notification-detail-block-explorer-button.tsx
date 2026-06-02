@@ -1,7 +1,9 @@
 import React, { useCallback, useContext, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import type { OnChainRawNotification } from '@metamask/notification-services-controller/notification-services';
+import { getNotificationSubtype } from '@metamask/notification-services-controller/notification-services';
 import { toHex } from '@metamask/controller-utils';
+import { useNotificationAnalyticsProperties } from '../../../pages/notifications/notification-hooks/use-notification-analytics-properties';
 import { getNetworkConfigurationsByChainId } from '../../../../shared/lib/selectors/networks';
 import { ButtonVariant } from '../../component-library';
 import { useI18nContext } from '../../../hooks/useI18nContext';
@@ -26,6 +28,7 @@ export const NotificationDetailBlockExplorerButton = ({
 }: NotificationDetailBlockExplorerButtonProps) => {
   const t = useI18nContext();
   const { trackEvent } = useContext(MetaMetricsContext);
+  const { profile_id } = useNotificationAnalyticsProperties();
 
   const chainIdHex = toHex(chainId);
   const { network } = notification.payload;
@@ -65,6 +68,10 @@ export const NotificationDetailBlockExplorerButton = ({
         // TODO: Fix in https://github.com/MetaMask/metamask-extension/issues/31860
         // eslint-disable-next-line @typescript-eslint/naming-convention
         notification_type: notification.type,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        notification_subtype: getNotificationSubtype(notification),
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        ...(profile_id && { profile_id }),
         // TODO: Fix in https://github.com/MetaMask/metamask-extension/issues/31860
         // eslint-disable-next-line @typescript-eslint/naming-convention
         chain_id: chainId,
@@ -73,7 +80,7 @@ export const NotificationDetailBlockExplorerButton = ({
         clicked_item: 'block_explorer',
       },
     });
-  }, [chainId, notification.id, notification.type, trackEvent]);
+  }, [chainId, notification, profile_id, trackEvent]);
 
   if (!blockExplorerUrl) {
     return null;

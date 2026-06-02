@@ -8,10 +8,13 @@ import {
   MetaMetricsEventCategory,
   MetaMetricsEventName,
 } from '../../../../../shared/constants/metametrics';
+import { getNotificationSubtype } from '@metamask/notification-services-controller/notification-services';
+import { useNotificationAnalyticsProperties } from '../../notification-hooks/use-notification-analytics-properties';
 import { DetailedViewData, SnapNotification } from './types';
 
 export const SnapFooterButton = (props: { notification: SnapNotification }) => {
   const { trackEvent } = useContext(MetaMetricsContext);
+  const { profile_id } = useNotificationAnalyticsProperties();
   const { handleSnapNavigate } = useSnapNavigation();
   const [isOpen, setIsOpen] = useState(false);
   const data = props.notification.data as DetailedViewData;
@@ -34,6 +37,10 @@ export const SnapFooterButton = (props: { notification: SnapNotification }) => {
           // TODO: Fix in https://github.com/MetaMask/metamask-extension/issues/31860
           // eslint-disable-next-line @typescript-eslint/naming-convention
           notification_type: props.notification.type,
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          notification_subtype: getNotificationSubtype(props.notification),
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          ...(profile_id && { profile_id }),
           // TODO: Fix in https://github.com/MetaMask/metamask-extension/issues/31860
           // eslint-disable-next-line @typescript-eslint/naming-convention
           clicked_item: isExternal ? 'external_link' : 'internal_link',
@@ -47,12 +54,7 @@ export const SnapFooterButton = (props: { notification: SnapNotification }) => {
         handleSnapNavigate(href);
       }
     },
-    [
-      handleSnapNavigate,
-      props.notification.id,
-      props.notification.type,
-      trackEvent,
-    ],
+    [handleSnapNavigate, profile_id, props.notification, trackEvent],
   );
 
   if (!footer) {

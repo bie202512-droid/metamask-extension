@@ -11,6 +11,7 @@ import {
   NotificationsSettingsAccount,
 } from '../../components/multichain';
 import { useListNotifications } from '../../hooks/metamask-notifications/useNotifications';
+import { useNotificationAnalyticsProperties } from '../notifications/notification-hooks/use-notification-analytics-properties';
 import { shortenAddress } from '../../helpers/utils/util';
 
 type NotificationsSettingsPerAccountProps = {
@@ -61,6 +62,7 @@ export const NotificationsSettingsPerAccount = ({
   refetchAccountSettings,
 }: NotificationsSettingsPerAccountProps) => {
   const { trackEvent } = useContext(MetaMetricsContext);
+  const { profile_id } = useNotificationAnalyticsProperties();
 
   const {
     toggleAccount,
@@ -78,13 +80,14 @@ export const NotificationsSettingsPerAccount = ({
       category: MetaMetricsEventCategory.NotificationSettings,
       event: MetaMetricsEventName.NotificationsSettingsUpdated,
       properties: {
-        settings_type: 'wallet-activity',
+        settings_type: 'wallet_activity',
         notification_channel: 'all',
         enabled: !isEnabled,
+        ...(profile_id && { profile_id }),
       },
     });
     await toggleAccount(!isEnabled);
-  }, [isEnabled, toggleAccount, trackEvent]);
+  }, [isEnabled, profile_id, toggleAccount, trackEvent]);
 
   const checksumAddress = toChecksumHexAddress(address);
   const shortenedAddress = shortenAddress(checksumAddress);

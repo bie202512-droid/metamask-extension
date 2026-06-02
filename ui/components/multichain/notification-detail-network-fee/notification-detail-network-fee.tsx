@@ -1,8 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react';
 import type { FC } from 'react';
 import type { OnChainRawNotificationsWithNetworkFields } from '@metamask/notification-services-controller/notification-services';
+import { getNotificationSubtype } from '@metamask/notification-services-controller/notification-services';
 
 import { useI18nContext } from '../../../hooks/useI18nContext';
+import { useNotificationAnalyticsProperties } from '../../../pages/notifications/notification-hooks/use-notification-analytics-properties';
 import { MetaMetricsContext } from '../../../contexts/metametrics';
 import {
   getNetworkDetailsFromNotifPayload,
@@ -90,6 +92,7 @@ const NotificationDetailNetworkFee_: FC<NotificationDetailNetworkFeeProps> = ({
 }) => {
   const t = useI18nContext();
   const { trackEvent } = useContext(MetaMetricsContext);
+  const { profile_id } = useNotificationAnalyticsProperties();
   const { value: isOpen, toggle } = useBoolean();
   const [networkFees, setNetworkFees] = useState<NetworkFees>(null);
   const [networkFeesError, setNetworkFeesError] = useState<boolean>(false);
@@ -136,6 +139,10 @@ const NotificationDetailNetworkFee_: FC<NotificationDetailNetworkFeeProps> = ({
           // TODO: Fix in https://github.com/MetaMask/metamask-extension/issues/31860
           // eslint-disable-next-line @typescript-eslint/naming-convention
           notification_type: notification.type,
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          notification_subtype: getNotificationSubtype(notification),
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          ...(profile_id && { profile_id }),
           // TODO: Fix in https://github.com/MetaMask/metamask-extension/issues/31860
           // eslint-disable-next-line @typescript-eslint/naming-convention
           chain_id: notification.payload.chain_id,

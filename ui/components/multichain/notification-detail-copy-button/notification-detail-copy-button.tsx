@@ -1,7 +1,9 @@
 import React, { useContext } from 'react';
 import type { FC } from 'react';
 import { NotificationServicesController } from '@metamask/notification-services-controller';
+import { getNotificationSubtype } from '@metamask/notification-services-controller/notification-services';
 import { MetaMetricsContext } from '../../../contexts/metametrics';
+import { useNotificationAnalyticsProperties } from '../../../pages/notifications/notification-hooks/use-notification-analytics-properties';
 import {
   MetaMetricsEventCategory,
   MetaMetricsEventName,
@@ -56,6 +58,7 @@ export const NotificationDetailCopyButton: FC<
   const [copied, handleCopy] = useCopyToClipboard({ clearDelayMs: null });
   const t = useI18nContext();
   const { trackEvent } = useContext(MetaMetricsContext);
+  const { profile_id } = useNotificationAnalyticsProperties();
 
   const tooltipText = copied ? t('copiedExclamation') : t('copyToClipboard');
   const tooltipTitle = tooltipText;
@@ -87,6 +90,10 @@ export const NotificationDetailCopyButton: FC<
           // TODO: Fix in https://github.com/MetaMask/metamask-extension/issues/31860
           // eslint-disable-next-line @typescript-eslint/naming-convention
           notification_type: notification.type,
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          notification_subtype: getNotificationSubtype(notification),
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          ...(profile_id && { profile_id }),
           ...otherNotificationProperties(),
           // TODO: Fix in https://github.com/MetaMask/metamask-extension/issues/31860
           // eslint-disable-next-line @typescript-eslint/naming-convention

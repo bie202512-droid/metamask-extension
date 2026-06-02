@@ -62,91 +62,91 @@ export default function TurnOnMetamaskNotifications() {
   const handleHideModal = () => {
     if (!isLoading) {
       hideModal();
-    };
+    }
+  };
 
-    useEffect(() => {
-      if (isNotificationEnabled && !error) {
-        navigate(NOTIFICATIONS_ROUTE);
-        hideModal();
-        listNotifications();
-      }
-    }, [isNotificationEnabled, error, navigate, hideModal, listNotifications]);
+  useEffect(() => {
+    if (isNotificationEnabled && !error) {
+      navigate(NOTIFICATIONS_ROUTE);
+      hideModal();
+      listNotifications();
+    }
+  }, [isNotificationEnabled, error, navigate, hideModal, listNotifications]);
 
-    const privacyLink = (
-      <Text
-        as="a"
-        href={ZENDESK_URLS.PROFILE_PRIVACY}
-        target="_blank"
-        rel="noopener noreferrer"
-        key="privacy-link"
-        color={TextColor.infoDefault}
-      >
-        {t('turnOnMetamaskNotificationsMessagePrivacyLink')}
-      </Text>
-    );
+  const privacyLink = (
+    <Text
+      as="a"
+      href={ZENDESK_URLS.PROFILE_PRIVACY}
+      target="_blank"
+      rel="noopener noreferrer"
+      key="privacy-link"
+      color={TextColor.infoDefault}
+    >
+      {t('turnOnMetamaskNotificationsMessagePrivacyLink')}
+    </Text>
+  );
 
-    const strongText = (
-      <Text as="span" fontWeight={FontWeight.Bold} key="strong-text">
-        {t('turnOnMetamaskNotificationsMessagePrivacyBold')}
-      </Text>
-    );
+  const strongText = (
+    <Text as="span" fontWeight={FontWeight.Bold} key="strong-text">
+      {t('turnOnMetamaskNotificationsMessagePrivacyBold')}
+    </Text>
+  );
 
-    return (
-      <Modal isOpen onClose={() => handleHideModal()}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader onClose={() => handleHideModal()}>
-            {t('turnOnMetamaskNotifications')}
-          </ModalHeader>
-          <ModalBody>
-            <Box
-              as="img"
-              src="./images/turn-on-metamask-notifications.png"
-              width={BlockSize.Full}
-              borderRadius={BorderRadius.MD}
-              marginBottom={4}
-            />
-            <Text as="p">{t('turnOnMetamaskNotificationsMessageFirst')}</Text>
-            <Text as="p" paddingTop={4}>
-              {
-                // @ts-expect-error: Expected 0-1 arguments, but got an array.
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                t('turnOnMetamaskNotificationsMessageSecond', [privacyLink])
-              }
-            </Text>
-            <Text as="p" paddingTop={4}>
-              {
-                // @ts-expect-error: Expected 0-1 arguments, but got an array.
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                t('turnOnMetamaskNotificationsMessageThird', [strongText])
-              }
-            </Text>
-          </ModalBody>
-          <ModalFooter
-            paddingTop={4}
-            // TODO: Fix in https://github.com/MetaMask/metamask-extension/issues/31879
-            // eslint-disable-next-line @typescript-eslint/no-misused-promises
-            onSubmit={() => handleTurnOnNotifications()}
-            containerProps={{
-              flexDirection: FlexDirection.Column,
-              alignItems: AlignItems.stretch,
-            }}
-            submitButtonProps={{
-              children: t('turnOnMetamaskNotificationsButton'),
-              loading: isLoading,
-              disabled: isLoading,
-              'data-testid': 'turn-on-notifications-button',
-            }}
+  return (
+    <Modal isOpen onClose={() => handleHideModal()}>
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader onClose={() => handleHideModal()}>
+          {t('turnOnMetamaskNotifications')}
+        </ModalHeader>
+        <ModalBody>
+          <Box
+            as="img"
+            src="./images/turn-on-metamask-notifications.png"
+            width={BlockSize.Full}
+            borderRadius={BorderRadius.MD}
+            marginBottom={4}
           />
-          {error && (
-            <Box paddingLeft={4} paddingRight={4}>
-              <Text as="p" color={TextColor.errorDefault} paddingTop={4}>
-                {t('turnOnMetamaskNotificationsError')}
-              </Text>
-            </Box>
-          )}
-        </ModalContent>
-      </Modal>
-    );
-  }
+          <Text as="p">{t('turnOnMetamaskNotificationsMessageFirst')}</Text>
+          <Text as="p" paddingTop={4}>
+            {
+              // @ts-expect-error: Expected 0-1 arguments, but got an array.
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              t('turnOnMetamaskNotificationsMessageSecond', [privacyLink])
+            }
+          </Text>
+          <Text as="p" paddingTop={4}>
+            {
+              // @ts-expect-error: Expected 0-1 arguments, but got an array.
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              t('turnOnMetamaskNotificationsMessageThird', [strongText])
+            }
+          </Text>
+        </ModalBody>
+        <ModalFooter
+          paddingTop={4}
+          // TODO: Fix in https://github.com/MetaMask/metamask-extension/issues/31879
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+          onSubmit={() => handleTurnOnNotifications()}
+          containerProps={{
+            flexDirection: FlexDirection.Column,
+            alignItems: AlignItems.stretch,
+          }}
+          submitButtonProps={{
+            children: t('turnOnMetamaskNotificationsButton'),
+            loading: isLoading,
+            disabled: isLoading,
+            'data-testid': 'turn-on-notifications-button',
+          }}
+        />
+        {error && (
+          <Box paddingLeft={4} paddingRight={4}>
+            <Text as="p" color={TextColor.errorDefault} paddingTop={4}>
+              {t('turnOnMetamaskNotificationsError')}
+            </Text>
+          </Box>
+        )}
+      </ModalContent>
+    </Modal>
+  );
 }
