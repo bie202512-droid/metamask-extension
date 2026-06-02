@@ -9,21 +9,15 @@ const sw = self as unknown as ServiceWorkerGlobalScope;
 const extensionPlatform = new ExtensionPlatform();
 
 /**
- * Push receive handler. Currently a no-op.
+ * Push receive handler — intentionally a no-op.
  *
- * The push payload no longer carries the notification body (§4.4), so the
- * previous `createNotificationMessage` + `showNotification` rendering can no
- * longer run here. The *assumption* is that the banner is now rendered by the
- * OS from the FCM `notification` / Webpush payload push-services sends (its
- * Webpush config is commented "added so that the extension doesn't fire
- * twice"), and the controller refreshes the in-app inbox on receive.
+ * The FCM payload no longer carries the notification body, so the old
+ * `createNotificationMessage` + `showNotification` render path can't run here.
+ * The OS renders the banner from the FCM/Webpush payload, and the core
+ * `NotificationServicesController` re-fetches the inbox on receive (via its
+ * `onNewNotifications` subscription) — so nothing needs to happen here.
  *
- * TODO: Confirm with the notifications / push-services team that the OS/Webpush
- * is the sole banner renderer and the service worker should not render here. If
- * the SW must still render, note there is no fetch-by-id endpoint today (the
- * API only returns the bulk list by address), so the options are: render from
- * the flat FCM fields, or reuse the controller's existing list re-fetch and
- * find the entry by `notification_id`.
+ * TODO: confirm with the push-services team that the OS is the sole banner renderer.
  *
  * @param _payload - the push analytics payload (unused).
  */
