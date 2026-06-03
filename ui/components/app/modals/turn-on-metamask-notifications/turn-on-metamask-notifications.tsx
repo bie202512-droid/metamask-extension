@@ -1,6 +1,15 @@
 import React, { useContext, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  ButtonsAlignment,
+} from '@metamask/design-system-react';
 import { I18nContext } from '../../../../contexts/i18n';
 import { useModalProps } from '../../../../hooks/useModalProps';
 import { useMetamaskNotificationsContext } from '../../../../contexts/metamask-notifications/metamask-notifications';
@@ -21,19 +30,7 @@ import {
 import { NOTIFICATIONS_ROUTE } from '../../../../helpers/constants/routes';
 import ZENDESK_URLS from '../../../../helpers/constants/zendesk-url';
 
-import {
-  Box,
-  Text,
-} from '../../../component-library';
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  ButtonsAlignment,
-} from '@metamask/design-system-react';
+import { Box, Text } from '../../../component-library';
 import {
   BlockSize,
   BorderRadius,
