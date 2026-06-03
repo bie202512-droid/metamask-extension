@@ -23,10 +23,10 @@ import ZENDESK_URLS from '../../../../helpers/constants/zendesk-url';
 
 import {
   Box,
-  Modal,
   Text,
 } from '../../../component-library';
 import {
+  Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
