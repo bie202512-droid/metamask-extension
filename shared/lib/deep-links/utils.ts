@@ -7,6 +7,7 @@ import {
 import { parse } from './parse';
 import { VALID } from './verify';
 import { DEEP_LINK_ROUTE } from './routes/route';
+import { DEEP_LINK_ORIGIN } from './routes/home';
 
 /**
  * Builds the interstitial page route with the given URL path and query.
@@ -19,6 +20,22 @@ import { DEEP_LINK_ROUTE } from './routes/route';
 export function buildInterstitialRoute(urlPathAndQuery: string): string {
   const params = new URLSearchParams({ u: urlPathAndQuery });
   return `${DEEP_LINK_ROUTE}?${params.toString()}`;
+}
+
+/**
+ * Builds a deep link URL for the given pathname and parameters.
+ *
+ * @param pathname - The pathname of the deep link.
+ * @param params - The parameters to append to the deep link URL.
+ * @returns The deep link URL.
+ */
+export function buildDeepLinkUrl(
+  pathname: string,
+  params: URLSearchParams,
+): string {
+  const deeplinkUrl = new URL(pathname, DEEP_LINK_ORIGIN);
+  params.forEach((value, key) => deeplinkUrl.searchParams.append(key, value));
+  return deeplinkUrl.toString();
 }
 
 /**

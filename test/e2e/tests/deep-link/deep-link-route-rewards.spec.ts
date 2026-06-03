@@ -1,9 +1,7 @@
-import type { Mockttp } from 'mockttp';
 import { withFixtures } from '../../helpers';
 import { Driver } from '../../webdriver/driver';
 import LoginPage from '../../page-objects/pages/login-page';
 import HomePage from '../../page-objects/pages/home/homepage';
-import RewardsPage from '../../page-objects/pages/rewards/rewards-page';
 import { REWARDS_ROUTE } from '../../../../ui/helpers/constants/routes';
 import { navigateDeepLinkToDestination } from '../../page-objects/flows/deep-link.flow';
 import {
@@ -12,7 +10,6 @@ import {
   getConfig,
   prepareDeepLinkUrl,
   shouldRenderCheckbox,
-  mockRewardsApi,
 } from './helpers';
 
 describe('Deep Link - Rewards Route', function () {
@@ -26,23 +23,6 @@ describe('Deep Link - Rewards Route', function () {
       await getConfig({
         title: this.test?.fullTitle(),
         deepLinkPublicKey,
-        manifestFlags: {
-          remoteFeatureFlags: {
-            rewardsEnabled: {
-              enabled: true,
-              minimumVersion: '0.0.0',
-            },
-            rewardsOnboardingEnabled: {
-              enabled: true,
-              minimumVersion: '0.0.0',
-            },
-            rewardsBitcoinEnabledExtension: true,
-            rewardsTronEnabledExtension: true,
-          },
-        },
-        additionalMocks: async (server: Mockttp) => {
-          await mockRewardsApi(server);
-        },
       }),
       async ({ driver }: { driver: Driver }) => {
         // ensure the background is ready to process deep links (by waiting
@@ -61,21 +41,22 @@ describe('Deep Link - Rewards Route', function () {
         const homePage = new HomePage(driver);
         await homePage.checkPageIsLoaded();
 
-        // navigate to the route and make sure it
-        // redirects to the deep link interstitial page
         const preparedUrl = await prepareDeepLinkUrl({
           route: REWARDS_ROUTE,
           signed: 'signed with sig_params',
           privateKey: keyPair.privateKey,
         });
 
-        // Navigate through deep link interstitial and verify the rewards page has been loaded!
         await navigateDeepLinkToDestination(
           driver,
           preparedUrl,
           'unlocked',
           shouldRenderCheckbox('signed with sig_params'),
-          RewardsPage,
+          HomePage,
+        );
+
+        await driver.waitForSelector(
+          '[data-testid="deeplink-qrcode-container"]',
         );
       },
     );

@@ -1,14 +1,18 @@
-import { BaseUrl } from '../../../constants/urls';
+import { buildDeepLinkUrl } from '../utils';
+import {
+  createHomeQrCodeDestination,
+  HomeQueryParams,
+} from './home';
 import { Route } from './route';
 
 export const predict = new Route({
   pathname: '/predict',
   getTitle: (_: URLSearchParams) => 'deepLink_thePredictPage',
+  handlerSearchParams: 'original',
   handler: function handler(params: URLSearchParams) {
-    const predictUrl = new URL('/prediction-markets', BaseUrl.MetaMask);
-    params.forEach((value, key) => predictUrl.searchParams.append(key, value));
-    return {
-      redirectTo: predictUrl,
-    };
+    return createHomeQrCodeDestination(
+      HomeQueryParams.PredictDeeplinkUrl,
+      buildDeepLinkUrl('/predict', params),
+    );
   },
 });

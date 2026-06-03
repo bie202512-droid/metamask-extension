@@ -3127,6 +3127,12 @@
     "message": "You were sent here by a third party, not MetaMask. $1",
     "description": "$1 is the message 'deepLink_ContinueDescription'"
   },
+  "deepLinkQrPredictDescription": {
+    "message": "To access MetaMask Prediction Markets, scan the QR code with your mobile device."
+  },
+  "deepLinkQrPredictTitle": {
+    "message": "Open Prediction Markets on mobile"
+  },
   "deepLink_theAssetPage": {
     "message": "the asset page"
   },

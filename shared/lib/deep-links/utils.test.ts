@@ -1,4 +1,9 @@
-import { getDeferredDeepLinkRoute, buildInterstitialRoute } from './utils';
+import {
+  getDeferredDeepLinkRoute,
+  buildInterstitialRoute,
+  buildDeepLinkUrl,
+} from './utils';
+import { DEEP_LINK_ORIGIN } from './routes/home';
 import { DeferredDeepLinkRouteType } from './types';
 import * as parseModule from './parse';
 import { VALID, MISSING, INVALID } from './verify';
@@ -15,6 +20,21 @@ const mockSwapLink =
   'https://link.metamask.io/swap?amount=22000000000000000&from=eip155%3A1%2Fslip44%3A60&sig_params=amount%2Cfrom%2Cto&to=eip155%3A59144%2Ferc20%3A0x176211869cA2b568f2A7D4EE941E073a821EE1ff&sig=KYoYO9beWAlLIT6GUATcHj98hoDiO9h3UZC76ZcMfreKsJcFtCp_vJCWqa9s8-6aO4FLPgoMI02k03t2WcL5bA';
 
 describe('Deep link utils', () => {
+  describe('buildDeepLinkUrl', () => {
+    it('builds a deep link URL with pathname and query parameters', () => {
+      const result = buildDeepLinkUrl(
+        '/rewards',
+        new URLSearchParams({ tab: 'overview' }),
+      );
+      expect(result).toBe(`${DEEP_LINK_ORIGIN}/rewards?tab=overview`);
+    });
+
+    it('builds a deep link URL without query parameters', () => {
+      const result = buildDeepLinkUrl('/predict', new URLSearchParams());
+      expect(result).toBe(`${DEEP_LINK_ORIGIN}/predict`);
+    });
+  });
+
   describe('buildInterstitialRoute', () => {
     it('builds the interstitial route with url path and query', () => {
       const result = buildInterstitialRoute('/swap?amount=100');
