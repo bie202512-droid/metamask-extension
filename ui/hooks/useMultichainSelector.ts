@@ -1,9 +1,10 @@
-import { useSelector, DefaultRootState } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { InternalAccount } from '@metamask/keyring-internal-api';
 import { getSelectedInternalAccount } from '../../shared/lib/selectors/accounts';
+import type { MetaMaskReduxState } from '../store/store';
 
 export function useMultichainSelector<
-  TState = DefaultRootState,
+  TState = MetaMaskReduxState,
   TSelected = unknown,
 >(
   selector: (state: TState, account?: InternalAccount) => TSelected,

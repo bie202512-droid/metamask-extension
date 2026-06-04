@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent } from '@testing-library/react';
 import { TransactionType } from '@metamask/transaction-controller';
-import { DefaultRootState } from 'react-redux';
+import type { MetaMaskReduxState } from '../../../../../store/store';
 import { getMockConfirmStateForTransaction } from '../../../../../../test/data/confirmations/helper';
 import { genUnapprovedContractInteractionConfirmation } from '../../../../../../test/data/confirmations/contract-interaction';
 import { renderWithConfirmContextProvider } from '../../../../../../test/lib/confirmations/render-helpers';
@@ -64,7 +64,7 @@ function render({
 } = {}) {
   const baseState = getMockConfirmStateForTransaction(
     confirmation,
-  ) as DefaultRootState;
+  ) as MetaMaskReduxState;
 
   const state = {
     ...baseState,

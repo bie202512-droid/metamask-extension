@@ -1,12 +1,12 @@
 import React from 'react';
-import { DefaultRootState } from 'react-redux';
+import type { MetaMaskReduxState } from '../../../../../store/store';
 import { getMockTokenTransferConfirmState } from '../../../../../../test/data/confirmations/helper';
 import { renderWithConfirmContextProvider } from '../../../../../../test/lib/confirmations/render-helpers';
 import configureStore from '../../../../../store/store';
 import { DAppInitiatedHeader } from './dapp-initiated-header';
 
 const render = (
-  state: DefaultRootState = getMockTokenTransferConfirmState({}),
+  state: MetaMaskReduxState = getMockTokenTransferConfirmState({}),
 ) => {
   const store = configureStore(state);
   return renderWithConfirmContextProvider(<DAppInitiatedHeader />, store);

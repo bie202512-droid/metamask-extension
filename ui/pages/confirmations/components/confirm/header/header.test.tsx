@@ -1,10 +1,10 @@
 import { fireEvent, waitFor } from '@testing-library/react';
 import React from 'react';
-import { DefaultRootState } from 'react-redux';
 import {
   TransactionMeta,
   TransactionType,
 } from '@metamask/transaction-controller';
+import type { MetaMaskReduxState } from '../../../../../store/store';
 
 import {
   getMockConfirmStateForTransaction,
@@ -23,7 +23,7 @@ jest.mock('react-router-dom', () => ({
   useNavigate: () => jest.fn(),
 }));
 
-const render = (state: DefaultRootState = getMockTypedSignConfirmState()) => {
+const render = (state: MetaMaskReduxState = getMockTypedSignConfirmState()) => {
   const store = configureStore(state);
   return renderWithConfirmContextProvider(<Header />, store);
 };

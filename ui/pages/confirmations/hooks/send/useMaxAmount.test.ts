@@ -1,4 +1,4 @@
-import { DefaultRootState } from 'react-redux';
+import type { MetaMaskReduxState } from '../../../../../store/store';
 
 import { Numeric } from '../../../../../shared/lib/Numeric';
 import {
@@ -16,7 +16,7 @@ jest.mock('./useBalance');
 
 const MOCK_ADDRESS_1 = '0x0dcd5d886577d5081b0c52e242ef29e70be3e7bc';
 
-function renderHook(state?: DefaultRootState) {
+function renderHook(state?: MetaMaskReduxState) {
   const { result } = renderHookWithProvider(useMaxAmount, state ?? mockState);
   return result.current;
 }
