@@ -2,6 +2,7 @@ import {
   BtcAccountType,
   SolAccountType,
   TrxAccountType,
+  XlmAccountType,
   isEvmAccountType,
 } from '@metamask/keyring-api';
 import { KeyringTypes } from '@metamask/keyring-controller';
@@ -15,6 +16,7 @@ export type AccountTypeCategory =
   | 'institutional-evm'
   | 'bitcoin'
   | 'tron'
+  | 'stellar'
   | 'unknown';
 
 /**
@@ -78,6 +80,11 @@ export const getAccountTypeCategory = (
   // TRON accounts
   if (type === TrxAccountType.Eoa) {
     return 'tron';
+  }
+
+  // Stellar accounts
+  if (type === XlmAccountType.Account) {
+    return 'stellar';
   }
 
   return 'unknown';
@@ -146,4 +153,13 @@ export const isBitcoinAccount = (account: InternalAccount): boolean => {
  */
 export const isTronAccount = (account: InternalAccount): boolean => {
   return getAccountTypeCategory(account) === 'tron';
+};
+
+/**
+ * Checks if an account is a Stellar account
+ *
+ * @param account - The internal account object to check.
+ */
+export const isStellarAccount = (account: InternalAccount): boolean => {
+  return getAccountTypeCategory(account) === 'stellar';
 };

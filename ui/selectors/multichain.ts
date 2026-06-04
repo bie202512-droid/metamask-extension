@@ -24,6 +24,8 @@ import {
   MULTICHAIN_ACCOUNT_TYPE_TO_MAINNET,
   MULTICHAIN_TOKEN_IMAGE_MAP,
   MultichainNetworks,
+  MULTICHAIN_NETWORK_TO_NICKNAME,
+  MULTICHAIN_PROVIDER_CONFIGS,
   MultichainProviderConfig,
 } from '../../shared/constants/multichain/networks';
 import { Numeric } from '../../shared/lib/Numeric';
@@ -329,6 +331,7 @@ export function getMultichainIsTestnet(
     MultichainNetworks.SOLANA_TESTNET,
     MultichainNetworks.TRON_NILE,
     MultichainNetworks.TRON_SHASTA,
+    MultichainNetworks.STELLAR_TESTNET,
   ].includes(providerConfig.chainId as MultichainNetworks);
 }
 
@@ -436,6 +439,8 @@ const SYNTHETIC_MULTICHAIN_CHAIN_IDS: readonly MultichainNetworks[] = [
   MultichainNetworks.TRON,
   MultichainNetworks.TRON_NILE,
   MultichainNetworks.TRON_SHASTA,
+  MultichainNetworks.STELLAR,
+  MultichainNetworks.STELLAR_TESTNET,
 ];
 
 /**
@@ -447,8 +452,16 @@ const SYNTHETIC_MULTICHAIN_CHAIN_IDS: readonly MultichainNetworks[] = [
 function syntheticNetworkConfigurationFromMultichainController(
   chainId: MultichainNetworks,
 ): NetworkConfiguration {
-  const { name } = AVAILABLE_MULTICHAIN_NETWORK_CONFIGURATIONS[chainId];
-  const nativeCurrency = MULTICHAIN_NETWORK_TICKER[chainId];
+  const controllerConfig = (
+    AVAILABLE_MULTICHAIN_NETWORK_CONFIGURATIONS as Record<
+      string,
+      { name: string }
+    >
+  )[chainId];
+  const name = controllerConfig?.name ?? MULTICHAIN_NETWORK_TO_NICKNAME[chainId];
+  const nativeCurrency =
+    (MULTICHAIN_NETWORK_TICKER as Record<string, string>)[chainId] ??
+    MULTICHAIN_PROVIDER_CONFIGS[chainId].ticker;
 
   return {
     blockExplorerUrls: [],

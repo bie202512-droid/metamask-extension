@@ -392,6 +392,18 @@
           "isEvm": false,
           "name": "Tron",
           "nativeCurrency": "tron:728126428/slip44:195"
+        },
+        "stellar:pubnet": {
+          "chainId": "stellar:pubnet",
+          "isEvm": false,
+          "name": "Stellar",
+          "nativeCurrency": "stellar:pubnet/slip44:148"
+        },
+        "stellar:testnet": {
+          "chainId": "stellar:testnet",
+          "isEvm": false,
+          "name": "Stellar Testnet",
+          "nativeCurrency": "stellar:testnet/slip44:148"
         }
       },
       "networksWithTransactionActivity": {},
@@ -719,6 +731,10 @@
           "tron:2494104990": false,
           "tron:3448148188": false,
           "tron:728126428": false
+        },
+        "stellar": {
+          "stellar:pubnet": false,
+          "stellar:testnet": false
         }
       },
       "nativeAssetIdentifiers": {
@@ -990,7 +1006,8 @@
         "npm:@metamask/message-signing-snap": "mainnet",
         "npm:@metamask/permissions-kernel-snap": "mainnet",
         "npm:@metamask/solana-wallet-snap": "mainnet",
-        "npm:@metamask/tron-wallet-snap": "mainnet"
+        "npm:@metamask/tron-wallet-snap": "mainnet",
+        "npm:@metamask/stellar-wallet-snap": "mainnet"
       }
     },
     "ShieldController": {

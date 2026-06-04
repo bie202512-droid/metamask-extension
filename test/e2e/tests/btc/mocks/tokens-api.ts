@@ -11,6 +11,9 @@ const SOL_USDC_CAIP_ASSET_ID =
 const TRON_NATIVE_CAIP_ASSET_ID = 'tron:728126428/slip44:195';
 const TRON_CHAIN_CAIP_ID = 'tron:728126428';
 
+const STELLAR_NATIVE_CAIP_ASSET_ID = 'stellar:pubnet/slip44:148';
+const STELLAR_CHAIN_CAIP_ID = 'stellar:pubnet';
+
 /**
  * Mock GET /v2/supportedNetworks for the Tokens API.
  *
@@ -31,6 +34,7 @@ export const mockTokensV2SupportedNetworks = (mockServer: Mockttp) =>
         BTC_CHAIN_CAIP_ID,
         SOL_CHAIN_CAIP_ID,
         TRON_CHAIN_CAIP_ID,
+        STELLAR_CHAIN_CAIP_ID,
         'eip155:1',
         'eip155:137',
         'eip155:56',
@@ -158,6 +162,18 @@ export const mockTokensV3Assets = (mockServer: Mockttp) =>
           iconUrl:
             'https://static.cx.metamask.io/api/v2/tokenIcons/assets/tron/728126428/slip44/195.png',
           coingeckoId: 'tron',
+        });
+      }
+
+      if (assetIds.includes(STELLAR_NATIVE_CAIP_ASSET_ID)) {
+        results.push({
+          assetId: STELLAR_NATIVE_CAIP_ASSET_ID,
+          name: 'Stellar Lumens',
+          symbol: 'XLM',
+          decimals: 7,
+          iconUrl:
+            'https://static.cx.metamask.io/api/v2/tokenIcons/assets/stellar/pubnet/slip44/148.png',
+          coingeckoId: 'stellar',
         });
       }
 

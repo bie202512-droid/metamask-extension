@@ -155,6 +155,7 @@ export const DAPP_PATHS: Readonly<Record<string, readonly string[]>> =
     'test-dapp-mm-connect': mm('browser-playground', 'build'),
     'test-dapp-solana': mm('test-dapp-solana', 'dist'),
     'test-dapp-tron': mm('test-dapp-tron', 'dist'),
+    'test-dapp-stellar': mm('test-dapp-stellar', 'dist'),
     'test-snaps': mm('test-snaps', 'dist'),
   });
 
@@ -165,6 +166,7 @@ export const DAPP_PATH = Object.freeze({
   TEST_DAPP_MM_CONNECT: 'test-dapp-mm-connect',
   TEST_DAPP_SOLANA: 'test-dapp-solana',
   TEST_DAPP_TRON: 'test-dapp-tron',
+  TEST_DAPP_STELLAR: 'test-dapp-stellar',
   TEST_SNAPS: 'test-snaps',
   SNAP_SIMPLE_KEYRING_SITE: 'snap-simple-keyring-site',
   SNAP_ACCOUNT_ABSTRACTION_KEYRING: 'snap-account-abstraction-keyring',
@@ -249,6 +251,12 @@ export const DEFAULT_TRON_ADDRESS_2 = 'TEcjynxEx7bPfDByW1uwPgsLCBhqynvpQx';
 /* Default TRON address created using test SRP */
 export const DEFAULT_TRON_ADDRESS_SHORT = 'TJ3Q...vGS3';
 
+/* Default Stellar address used in Stellar E2E mocks */
+export const DEFAULT_STELLAR_ADDRESS =
+  'GABCDEFGHJKLMNPQRSTUVWXYZ234567ABCDEFGHJKLMNPQRSTUVWXYZ2';
+
+export const DEFAULT_STELLAR_ADDRESS_SHORT = 'GABCD...WXYZ2';
+
 /* Account types */
 // TODO: Fix in https://github.com/MetaMask/metamask-extension/issues/31860
 // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -323,6 +331,7 @@ export const WINDOW_TITLES = Object.freeze({
   MultichainTestDApp: 'Multichain Test Dapp',
   SolanaTestDApp: 'Solana Test Dapp',
   TronTestDApp: 'Tron Test Dapp',
+  StellarTestDApp: 'Stellar Test Dapp',
   TestE2EPage: 'E2E Test Page',
   TestSnaps: 'Test Snaps',
   ERC4337Snap: 'Account Abstraction Snap',
