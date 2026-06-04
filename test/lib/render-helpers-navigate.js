@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars -- ESLint is confused here */
 /* global jest */
 import React, { useMemo, useState } from 'react';
-import { Provider } from 'react-redux';
+import { MetaMaskTestReduxProvider } from './redux-test-provider.js';
 import { render } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
 import { userEvent } from '@testing-library/user-event';
@@ -37,7 +37,6 @@ const createMockMetaMetricsContext = (
   onboardingParentContext: { current: null },
 });
 
-/** @type {import('react').FC<{ currentLocale?: string; current?: object; en?: object; children?: import('react').ReactNode }>} */
 export const I18nProvider = (props) => {
   const { currentLocale, current, en: eng } = props;
 
@@ -63,10 +62,6 @@ I18nProvider.defaultProps = {
   children: undefined,
 };
 
-/**
- * @param {{ initialEntries?: string[], store?: object, routePath?: string }} [options]
- * @returns {import('react').FC<{ children?: import('react').ReactNode }>}
- */
 export function createMemoryRouterWrapper(options = {}) {
   const { initialEntries = ['/'], store, routePath = '*' } = options;
 
@@ -88,7 +83,11 @@ export function createMemoryRouterWrapper(options = {}) {
       />
     );
 
-    return store ? <Provider store={store}>{container}</Provider> : container;
+    return store ? (
+      <MetaMaskTestReduxProvider store={store}>{container}</MetaMaskTestReduxProvider>
+    ) : (
+      container
+    );
   }
 
   Wrapper.propTypes = {

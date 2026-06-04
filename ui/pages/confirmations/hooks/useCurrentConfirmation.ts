@@ -1,7 +1,7 @@
 import { ApprovalType } from '@metamask/controller-utils';
 import { TransactionMeta } from '@metamask/transaction-controller';
 import { useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../../store/store';
 import { useParams } from 'react-router-dom';
 import {
   ApprovalsMetaMaskState,
@@ -26,30 +26,40 @@ import {
  */
 const useCurrentConfirmation = (providedConfirmationId?: string) => {
   const { id: paramsConfirmationId } = useParams<{ id: string }>();
-  const oldestPendingApproval = useSelector(firstPendingConfirmationSelector);
+  const oldestPendingApproval = useAppSelector(
+    firstPendingConfirmationSelector,
+  );
   const confirmationId =
     providedConfirmationId ?? paramsConfirmationId ?? oldestPendingApproval?.id;
   const confirmationIdForSelectors = confirmationId ?? '';
 
-  const pendingApproval = useSelector((state) =>
-    internalSelectPendingApproval(
-      state as ApprovalsMetaMaskState,
-      confirmationIdForSelectors,
-    ),
+  const selectPendingApproval = useMemo(
+    () => (state: ApprovalsMetaMaskState) =>
+      internalSelectPendingApproval(state, confirmationIdForSelectors),
+    [confirmationIdForSelectors],
   );
+  const pendingApproval = useAppSelector(selectPendingApproval);
 
-  const transactionMetadata = useSelector((state) =>
-    // TODO: Fix in https://github.com/MetaMask/metamask-extension/issues/31973
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (getUnapprovedTransaction as any)(state, confirmationIdForSelectors),
-  ) as TransactionMeta | undefined;
+  const selectTransactionMetadata = useMemo(
+    () => (state: ApprovalsMetaMaskState) =>
+      // TODO: Fix in https://github.com/MetaMask/metamask-extension/issues/31973
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (getUnapprovedTransaction as any)(state, confirmationIdForSelectors) as
+        | TransactionMeta
+        | undefined,
+    [confirmationIdForSelectors],
+  );
+  const transactionMetadata = useAppSelector(selectTransactionMetadata);
 
   // TODO: Migrate to selectUnapprovedSignatureRequestById once all consumers
   // of currentConfirmation are updated from msgParams to messageParams.
   // eslint-disable-next-line @typescript-eslint/no-deprecated
-  const signatureMessage = useSelector((state) =>
-    selectUnapprovedMessage(state, confirmationIdForSelectors),
+  const selectSignatureMessage = useMemo(
+    () => (state: ApprovalsMetaMaskState) =>
+      selectUnapprovedMessage(state, confirmationIdForSelectors),
+    [confirmationIdForSelectors],
   );
+  const signatureMessage = useAppSelector(selectSignatureMessage);
 
   const useRedesignedForSignatures = shouldUseRedesignForSignatures({
     approvalType: pendingApproval?.type as ApprovalType,

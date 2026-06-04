@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { Provider } from 'react-redux';
+import { MetaMaskTestReduxProvider } from '../redux-test-provider.js';
 import { render } from '@testing-library/react';
 import type { Store } from 'redux';
 
@@ -47,7 +47,7 @@ function renderWithContext(
   contextValue: ConfirmContextType,
 ) {
   const wrapper = ({ children }: { children: React.ReactNode }) => (
-    <Provider store={store}>
+    <MetaMaskTestReduxProvider store={store}>
       <I18nProvider currentLocale="en" current={en} en={en}>
         <ConfirmContext.Provider value={contextValue}>
           <DappSwapContextProvider>
@@ -55,7 +55,7 @@ function renderWithContext(
           </DappSwapContextProvider>
         </ConfirmContext.Provider>
       </I18nProvider>
-    </Provider>
+    </MetaMaskTestReduxProvider>
   );
 
   return render(component, { wrapper });

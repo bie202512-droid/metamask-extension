@@ -59,6 +59,7 @@ module.exports = {
     'jest-canvas-mock',
     '<rootDir>/test/setup.js',
     '<rootDir>/test/env.js',
+    '<rootDir>/test/jest/setup-react-redux-provider.js',
   ],
   setupFilesAfterEnv: ['<rootDir>/test/jest/setup.js'],
   testMatch: [
