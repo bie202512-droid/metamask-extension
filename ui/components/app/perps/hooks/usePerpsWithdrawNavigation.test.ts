@@ -76,10 +76,9 @@ function renderUsePerpsWithdrawNavigation(
 ) {
   const store = createMockStore(state);
   const wrapper = ({ children }: { children: React.ReactNode }) =>
-    React.createElement(
-      Provider,
-      { store: store as never },
-      React.createElement(
+    React.createElement(Provider, {
+      store: store as never,
+      children: React.createElement(
         MemoryRouter,
         {
           initialEntries: [pathname],
@@ -92,7 +91,7 @@ function renderUsePerpsWithdrawNavigation(
         },
         children,
       ),
-    );
+    });
 
   return renderHook(hook, { wrapper });
 }

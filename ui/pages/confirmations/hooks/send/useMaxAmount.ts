@@ -1,7 +1,8 @@
 import { CHAIN_IDS } from '@metamask/transaction-controller';
 import { Hex } from '@metamask/utils';
 import { useCallback } from 'react';
-import { useSelector } from 'react-redux';
+import type { MetaMaskReduxState } from '../../../../store/store';
+import { useAppSelector } from '../../../../store/store';
 
 import { Numeric } from '../../../../../shared/lib/Numeric';
 import { getGasFeeEstimatesByChainId } from '../../../../ducks/metamask/metamask';
@@ -10,7 +11,6 @@ import { Asset } from '../../types/send';
 import { getLayer1GasFees, toTokenMinimalUnit } from '../../utils/send';
 import { useSendContext } from '../../context/send';
 import { useIsNetworkGasSponsored } from '../../../../hooks/useIsNetworkGasSponsored';
-import type { MetaMaskReduxState } from '../../../../store/store';
 import { useBalance } from './useBalance';
 import { useSendType } from './useSendType';
 
@@ -80,13 +80,13 @@ export const useMaxAmount = () => {
   const { rawBalanceNumeric } = useBalance();
   const { isNetworkGasSponsored } = useIsNetworkGasSponsored(chainId);
 
-  const gasFeeEstimates = useSelector((state) => {
+  const gasFeeEstimates = useAppSelector((state) => {
     if (chainId && isEvmSendType) {
       return (
         getGasFeeEstimatesByChainId as (
-          state: MetaMaskReduxState,
-          chainId: Hex,
-        ) => GasFeeEstimatesType
+          s: MetaMaskReduxState,
+          id: Hex,
+        ) => GasFeeEstimatesType | undefined
       )(state, chainId as Hex);
     }
     return undefined;

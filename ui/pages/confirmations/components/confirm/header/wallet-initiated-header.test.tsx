@@ -4,8 +4,6 @@ import {
   TransactionMeta,
   TransactionType,
 } from '@metamask/transaction-controller';
-import type { MetaMaskReduxState } from '../../../../../store/store';
-
 import {
   getMockConfirmStateForTransaction,
   getMockTokenTransferConfirmState,
@@ -37,9 +35,7 @@ const getPerpsWithdrawState = () => {
   } as TransactionMeta);
 };
 
-const render = (
-  state: MetaMaskReduxState = getMockTokenTransferConfirmState({}),
-) => {
+const render = (state = getMockTokenTransferConfirmState({})) => {
   const store = configureStore(state);
   return renderWithConfirmContextProvider(<WalletInitiatedHeader />, store);
 };

@@ -1,4 +1,4 @@
-import type { MetaMaskReduxState } from '../../../../../store/store';
+import type { MetaMaskReduxState } from '../../../../store/store';
 
 import { Numeric } from '../../../../../shared/lib/Numeric';
 import {
@@ -17,7 +17,10 @@ jest.mock('./useBalance');
 const MOCK_ADDRESS_1 = '0x0dcd5d886577d5081b0c52e242ef29e70be3e7bc';
 
 function renderHook(state?: MetaMaskReduxState) {
-  const { result } = renderHookWithProvider(useMaxAmount, state ?? mockState);
+  const { result } = renderHookWithProvider(
+    useMaxAmount,
+    (state ?? mockState) as MetaMaskReduxState,
+  );
   return result.current;
 }
 
@@ -53,7 +56,7 @@ describe('useMaxAmount', () => {
           },
         },
       },
-    });
+    } as unknown as MetaMaskReduxState);
 
     expect(result.getMaxAmount()).toEqual('999.999570668411440000');
   });
@@ -79,7 +82,7 @@ describe('useMaxAmount', () => {
           },
         },
       },
-    });
+    } as unknown as MetaMaskReduxState);
 
     expect(result.getMaxAmount()).toEqual('1000');
   });
@@ -109,7 +112,7 @@ describe('useMaxAmount', () => {
           },
         },
       },
-    });
+    } as unknown as MetaMaskReduxState);
 
     expect(result.getMaxAmount()).toEqual('0');
   });
