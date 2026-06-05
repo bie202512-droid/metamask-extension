@@ -35,6 +35,7 @@ const ALLOWED_EVM_BRIDGE_CHAIN_IDS = [
   CHAIN_IDS.MONAD,
   CHAIN_IDS.HYPE,
   CHAIN_IDS.MEGAETH_MAINNET,
+  CHAIN_IDS.ARC,
 ];
 
 export const ALLOWED_BRIDGE_CHAIN_IDS = [
@@ -115,6 +116,8 @@ export const NETWORK_TO_SHORT_NETWORK_NAME_MAP: Record<
   [toEvmCaipChainId(CHAIN_IDS.HYPE)]: 'HyperEVM',
   [CHAIN_IDS.MEGAETH_MAINNET]: 'MegaETH',
   [toEvmCaipChainId(CHAIN_IDS.MEGAETH_MAINNET)]: 'MegaETH',
+  [CHAIN_IDS.ARC]: 'Arc',
+  [toEvmCaipChainId(CHAIN_IDS.ARC)]: 'Arc',
   [MultichainNetworks.SOLANA]: 'Solana',
   [MultichainNetworks.SOLANA_TESTNET]: 'Solana Testnet',
   [MultichainNetworks.SOLANA_DEVNET]: 'Solana Devnet',
@@ -241,6 +244,15 @@ export const BRIDGE_CHAINID_COMMON_TOKEN_PAIR: Partial<
     decimals: 6,
     name: 'USDT0',
     assetId: `${toEvmCaipChainId(CHAIN_IDS.MEGAETH_MAINNET)}/erc20:${toChecksumHexAddress('0xB8CE59FC3717ada4C02eaDF9682A9e934F625ebb')}`,
+  },
+  // TODO: Check what this does and whether it involves native token
+  [toEvmCaipChainId(CHAIN_IDS.ARC)]: {
+    // USDC on Arc
+    address: '0x3600000000000000000000000000000000000000',
+    symbol: 'USDC',
+    decimals: 6,
+    name: 'USDC',
+    assetId: `${toEvmCaipChainId(CHAIN_IDS.ARC)}/erc20:${toChecksumHexAddress('0x3600000000000000000000000000000000000000')}`,
   },
   [MultichainNetworks.SOLANA]: {
     // SOL -> USDC on Solana
