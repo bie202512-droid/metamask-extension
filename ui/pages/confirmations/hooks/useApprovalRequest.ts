@@ -1,5 +1,5 @@
-import { useMemo } from 'react';
-import { useAppSelector } from '../../../store/store';
+import { useSelector } from 'react-redux';
+
 import {
   ApprovalsMetaMaskState,
   internalSelectPendingApproval,
@@ -8,13 +8,11 @@ import { useConfirmationId } from './useConfirmationId';
 
 export function useApprovalRequest() {
   const confirmationId = useConfirmationId();
-  const confirmationIdForSelectors = confirmationId ?? '';
 
-  const selectPendingApproval = useMemo(
-    () => (state: ApprovalsMetaMaskState) =>
-      internalSelectPendingApproval(state, confirmationIdForSelectors),
-    [confirmationIdForSelectors],
+  return useSelector((state) =>
+    internalSelectPendingApproval(
+      state as ApprovalsMetaMaskState,
+      confirmationId ?? '',
+    ),
   );
-
-  return useAppSelector(selectPendingApproval);
 }

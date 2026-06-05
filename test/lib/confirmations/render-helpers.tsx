@@ -1,7 +1,8 @@
 import React, { ReactElement } from 'react';
-import { MetaMaskTestReduxProvider } from '../redux-test-provider.js';
 import { render } from '@testing-library/react';
 import type { Store } from 'redux';
+
+import { MetaMaskTestReduxProvider } from '../redux-test-provider';
 
 import {
   ConfirmContext,
