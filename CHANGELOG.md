@@ -7,6 +7,62 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [13.35.0]
+
+### Uncategorized
+
+- Raised the minimum supported browser versions for Chromium-based browsers to 123 and Firefox to ESR 128. (#41067)
+- chore(6936): migrate core UI components from MUI v4 → v5 (#41955)
+- Bump assets controller v8.3.1 (#43163)
+- chore(6921): upgrade React type definitions to v18 and codemod explicit children typing (#42616)
+- Updated the Sei network and token logo to Sei's new brand mark. (#43117)
+- chore: migrate `checkIsSeedlessPasswordOutdated` to `LegacyBackgroundApiService` (#43131)
+- Bump the `@metamask/tron-wallet-snap` to `^1.25.6` (#42701)
+- Bumped bitcoin snap v1.11.0 (#42993)
+- perf(6634): extract gas estimate side-effects, strip unused withRouter props (#42687)
+- Add support for `token-approval-revocation` permission via `wallet_requestExecutionPermissions` RPC (#42954)
+- Show hidden tokens in Send Flow (#42934)
+
+### Added
+
+- Added "Paid by MetaMask" label on the mUSD conversion confirmation screen when all transaction fees are sponsored (#43168)
+- Add Arc as Default Network (network/native logo + native price + multicall) (#43114)
+- Added a confirmation modal when closing all perpetual positions (#42613)
+- Reduced false-positive RPC connection banners — single-provider outages no longer pop the banner, even when many popular (#43073)
+  networks fail at once.
+- Add Telegram provider to Social Login options (#43125)
+- Updated onboarding metrics for Telegram Login. fixed onboarding unlock metrics. (#43052)
+- Added section to manage networks (#42944)
+- Added the client version to the transaction metadata (#43022)
+- Added address poisoning warnings when sending to suspiciously similar addresses (#42893)
+- Add new UI and error handling for QR scanning (#42905)
+- Added a volume value label on the Perps chart y-axis that appears when hovering a volume bar. (#42882)
+- Hardened the SRP Reveal malicious-site warning into a full-page block with no proceed-anyway path (#42737)
+- Add Telegram login to Social Login option (#42103)
+- Added low value tokens section (#42681)
+- Fix onboarding's backup & sync toggle being stuck when enabled (#42904)
+- Added a biometrics setup step after restoring a wallet (in forgot password flow) so users can enable passkey unlock before (#42865)
+  returning home.
+
+### Fixed
+
+- Fixed missing token icons (e.g. mUSD) in transaction confirmation rows and estimated changes. (#43133)
+- Removes `toggleNetworkMenuAfterSubmit ?` pre-condition for replacement RPC networks-form (#42980)
+- Update legacy settings routes to new correct ones (#43111)
+- Fixed navigation issue where tapping "Add Funds" in the perps order screen caused the back button to require two taps (#43002)
+- Add new hardware wallet reconnection page. (#42680)
+- Fix aggregated balance (#43061)
+- Disabled passkey unlock and setup on mobile browsers where the experience is unreliable. (#43009)
+- Fix routing after hardware wallet onboarding (#42952)
+- Fixed carousel links so supported deep links open directly in MetaMask instead of going through an extra browser tab. (#42634)
+- Fixed an issue where EIP-7702 authorization signatures with leading zero bytes in `r` or `s` could be rejected by relays and (#42970)
+  public RPCs.
+- Add guard to asset-util to prevent infinite recursion (#42966)
+- Fix the inpage provider not being available via `window.ethereum` and EIP-6963 on websites with certain (#42338)
+  Content-Security-Policy settings configured.
+- Fixed a bug that could default transactions to gas station before the native balance finished loading, and corrected (#42857)
+  gasless native-balance metrics for nested and L1-fee transactions.
+
 ## [13.33.0]
 
 ### Added
@@ -46,11 +102,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Bumped `qs` to 6.15.2, `tmp` to 0.2.6, updated uuid audit ignore ([#42999](https://github.com/MetaMask/metamask-extension/pull/42999))
+- Bumped `qs` to 6.15.2, `tmp` to 0.2.6, updated uuid audit ignore (#42999)
 
 ### Fixed
 
-- Disabled unified assets controller to fix background calls issue ([#42992](https://github.com/MetaMask/metamask-extension/pull/42992))
+- Disabled unified assets controller to fix background calls issue (#42992)
 
 ## [13.32.0]
 
@@ -2396,7 +2452,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - This changelog was split off with 12.22.0
 - All older changes can be found in [docs/CHANGELOG_older.md](https://github.com/MetaMask/metamask-extension/blob/main/docs/CHANGELOG_older.md)
 
-[Unreleased]: https://github.com/MetaMask/metamask-extension/compare/v13.33.0...HEAD
+[Unreleased]: https://github.com/MetaMask/metamask-extension/compare/v13.35.0...HEAD
+[13.35.0]: https://github.com/MetaMask/metamask-extension/compare/v13.33.0...v13.35.0
 [13.33.0]: https://github.com/MetaMask/metamask-extension/compare/v13.32.1...v13.33.0
 [13.32.1]: https://github.com/MetaMask/metamask-extension/compare/v13.32.0...v13.32.1
 [13.32.0]: https://github.com/MetaMask/metamask-extension/compare/v13.31.0...v13.32.0
