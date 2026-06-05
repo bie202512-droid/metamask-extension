@@ -2,6 +2,7 @@ import { Driver } from '../../webdriver/driver';
 import { TestDappStellar } from '../pages/test-dapp-stellar';
 import { WINDOW_TITLES } from '../../constants';
 import ConnectAccountConfirmation from '../pages/confirmations/connect-account-confirmation';
+import { enableStellarTestnetOnConnect } from '../../flask/stellar-connect/testHelpers';
 import { largeDelayMs } from '../../helpers';
 
 const tryConnectWithRetry = async (
@@ -36,9 +37,16 @@ const tryConnectWithRetry = async (
 export const connectStellarTestDapp = async (
   driver: Driver,
   testDapp: TestDappStellar,
+  options: { includeTestnet?: boolean } = {},
 ): Promise<void> => {
   await testDapp.checkPageIsLoaded();
   await tryConnectWithRetry(driver, testDapp, 3);
+
+  await driver.switchToWindowWithTitle(WINDOW_TITLES.Dialog);
+
+  if (options.includeTestnet) {
+    await enableStellarTestnetOnConnect(driver);
+  }
 
   const connectAccountConfirmation = new ConnectAccountConfirmation(driver);
   await connectAccountConfirmation.checkPageIsLoaded();

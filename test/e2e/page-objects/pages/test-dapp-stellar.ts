@@ -136,4 +136,39 @@ export class TestDappStellar {
       throw new Error('Expected signed message to be present');
     }
   }
+
+  async loadExampleTransactionXdr() {
+    await this.driver.clickElement({
+      testId: dataTestIds.testPage.signTransaction.loadExampleXdr,
+    });
+  }
+
+  async signTransaction() {
+    await this.driver.clickElement({
+      testId: dataTestIds.testPage.signTransaction.signTransaction,
+    });
+  }
+
+  async findSignedTransactionPresent() {
+    const element = await this.driver.findElement({
+      testId: dataTestIds.testPage.signTransaction.signedTransaction,
+    });
+    const text = await element.getText();
+    if (!text || text.trim().length === 0) {
+      throw new Error('Expected signed transaction to be present');
+    }
+  }
+
+  async findSelectedNetwork(networkKey: 'pubnet' | 'testnet') {
+    await this.driver.waitUntil(
+      async () => {
+        const select = await this.driver.findElement({
+          testId: dataTestIds.testPage.header.network,
+        });
+        const value = await select.getAttribute('value');
+        return value === networkKey;
+      },
+      { interval: 100, timeout: 10000 },
+    );
+  }
 }

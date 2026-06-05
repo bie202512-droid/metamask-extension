@@ -50,4 +50,30 @@ describe('Stellar Connect - Connect & disconnect - e2e tests', function () {
       },
     );
   });
+
+  it('Auto connects after refreshing the page', async function () {
+    await withStellarAccountSnap(
+      {
+        ...DEFAULT_STELLAR_TEST_DAPP_FIXTURE_OPTIONS,
+        title: this.test?.fullTitle(),
+      },
+      async (driver) => {
+        const testDappStellar = new TestDappStellar(driver);
+
+        await testDappStellar.openTestDappPage();
+
+        await connectStellarTestDapp(driver, testDappStellar);
+
+        await testDappStellar.findHeaderConnectedState();
+        await testDappStellar.findConnectedAccount(DEFAULT_STELLAR_ADDRESS_SHORT);
+
+        await driver.refresh();
+
+        await testDappStellar.checkPageIsLoaded();
+
+        await testDappStellar.findHeaderConnectedState();
+        await testDappStellar.findConnectedAccount(DEFAULT_STELLAR_ADDRESS_SHORT);
+      },
+    );
+  });
 });
